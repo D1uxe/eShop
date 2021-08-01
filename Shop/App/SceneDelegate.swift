@@ -10,13 +10,91 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	var window: UIWindow?
-
+	let requestFactory = RequestFactory()
 
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-		// Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-		// If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-		// This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+
 		guard let _ = (scene as? UIWindowScene) else { return }
+
+
+		let auth = requestFactory.makeAuthRequestFactory()
+
+		auth.logIn(userName: "Somebody", password: "mypassword") { response in
+
+			print("\n ✅✅✅ Authorization LOG IN ✅✅✅")
+
+			switch response.result {
+
+				case .success(let login):
+					print("Log In result: \(login)")
+
+				case .failure(let error):
+					print(error.localizedDescription)
+			}
+		}
+
+		auth.logOut(userId: 123) { response in
+
+			print("\n ✅✅✅ Authorization LOG Out ✅✅✅")
+
+			switch response.result {
+
+				case .success(let result):
+					print("Log OUT result: \(result)")
+
+				case .failure(let error):
+					print(error.localizedDescription)
+			}
+		}
+
+
+
+		let register = requestFactory.makeRegisterRequestFactory()
+
+		register.register(userId	 : 123,
+						  userName	 : "Somebody",
+						  password	 : "mypassword",
+						  email		 : "some@some.ru",
+						  gender	 : "m",
+						  creditCard : "9872389-2424-234224-234",
+						  bio		 : "This is good! I think I will switch to another language") { response in
+
+			print("\n ✅✅✅ REGISTRATION ✅✅✅")
+
+			switch response.result {
+
+				case .success(let result):
+					print("Registration result: \(result)")
+
+				case .failure(let error):
+					print(error.localizedDescription)
+			}
+		}
+
+
+
+		let changingData = requestFactory.makeChangeUserDataRequestFactory()
+
+		changingData.changeData(userId	 : 123,
+								userName	 : "Somebody",
+								password	 : "mypassword",
+								email		 : "some@some.ru",
+								gender	 : "m",
+								creditCard : "9872389-2424-234224-234",
+								bio		 : "This is good! I think I will switch to another language") { response in
+
+			print("\n ✅✅✅ CHANGE DATA ✅✅✅")
+
+			switch response.result {
+
+				case .success(let result):
+					print("Result of chaging data: \(result)")
+
+				case .failure(let error):
+					print(error.localizedDescription)
+			}
+		}
+
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {
