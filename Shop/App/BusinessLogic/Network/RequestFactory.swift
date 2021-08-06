@@ -25,6 +25,8 @@ class RequestFactory {
 		return ErrorParser()
 	}
 
+	//MARK: - Account
+
 	func makeAuthRequestFactory() -> AuthRequestFactory {
 		
 		let errorParser = makeErrorParser()
@@ -42,5 +44,15 @@ class RequestFactory {
 		let errorParser = makeErrorParser()
 		return ChangeUserData(errorParser: errorParser, sessionManager: commonSession, queue: sessionQueue)
 	}
+
+
+	//MARK: - Products
+
+	func makeProductRequestFactory() -> ProductRequestFactory {
+
+		let errorParser = makeErrorParser()
+		return ObtainProduct(errorParser: errorParser, sessionManager: commonSession, queue: sessionQueue)
+	}
+
 }
 

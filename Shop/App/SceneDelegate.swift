@@ -95,6 +95,40 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 			}
 		}
 
+
+
+
+		let product = requestFactory.makeProductRequestFactory()
+
+		product.getCatalog(pageNumber: 1, categoryId: 1) { response in
+
+			print("\n ✅✅✅ PRODUCT. GET CATALOG ✅✅✅")
+
+			switch response.result {
+
+				case .success(let result):
+					print("Get catalog result: \(result)")
+
+				case .failure(let error):
+					print(error.localizedDescription)
+			}
+		}
+
+
+		product.getProduct(productId: 77) { response in
+
+			print("\n ✅✅✅ PRODUCT. GET ONE PRODUCT ✅✅✅")
+
+			switch response.result {
+
+				case .success(let result):
+					print("Get product by id result: \(result)")
+
+				case .failure(let error):
+					print(error.localizedDescription)
+			}
+		}
+
 	}
 
 	func sceneDidDisconnect(_ scene: UIScene) {
